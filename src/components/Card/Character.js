@@ -23,7 +23,7 @@ const Character = (data) => {
                             }
                     </div>
                     <div className="flip-card-back">
-                        <h1>{data.name}</h1>
+                        <h3>{(!data.name) ? data.title : data.name}</h3>
                     </div>
                 </div>
             </div>

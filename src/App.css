@@ -1,24 +1,32 @@
+@import url('https://fonts.googleapis.com/css?family=Quicksand&display=swap');
+
 * {
     padding: 0;
     margin: 0;
 }
 
 body {
-    width: 1300px;
+    width: 1280px;
+    height : 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     background: #eadfdf;
-    margin: auto;
+    margin: 0 auto;
+    font-family: 'Quicksand', sans-serif;
+    letter-spacing: 1px;
 }
 
 .container {
     width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     background: #eadfdf;
+    box-shadow: 7px 7px 16px #dacfcf,
+        -7px -7px 16px #faefef;
 }
 
 .marvel-logo {
@@ -36,33 +44,72 @@ body {
 .tab-container button {
     border: none;
     outline: none;
-    padding: 1rem 1.8rem;
+    padding: 0.6rem 1.8rem;
     margin-right: 0.6rem;
     cursor: pointer;
     border-radius: 10px;
     background: #eadfdf;
     color: red;
+    letter-spacing: 1px;
     font-weight: bold;
     box-shadow: 7px 7px 16px #dacfcf,
         -7px -7px 16px #faefef;
+        font-family: 'Quicksand', sans-serif;
 }
 
-button:active{
-    box-shadow:inset 7px 7px 16px #dacfcf, 
-    inset -7px -7px 16px #faefef; 
+button:active {
+    box-shadow: inset 7px 7px 16px #dacfcf,
+        inset -7px -7px 16px #faefef;
 }
 
-button.inactive{
-    color : grey;
+button.inactive {
+    color: grey;
     cursor: not-allowed;
     background-color: lightgray;
-    box-shadow:inset 7px 7px 16px #dacfcf, 
-            inset -7px -7px 16px #faefef;
+    box-shadow: inset 7px 7px 16px #dacfcf,
+        inset -7px -7px 16px #faefef;
 }
 
-.container .loading-container{
-    height : 400px;
-    display : flex;
+button.next {
+    margin-right: 0;
+}
+
+.container .switch-tabs-container {
+    width: 593px;
+    display: flex;
+}
+
+.switch-tabs-container .tab-btn {
+    flex: 1;
+    padding: 0.5rem;
+    background-color: #eadfdf;
+    border-left: 3px solid red;
+    border-right: none;
+    border-top: none;
+    border-bottom: none;
+    outline: none;
+    border-radius: 2px;
+    cursor: pointer;
+    box-shadow: 7px 7px 16px #dacfcf,
+        -7px -7px 16px #faefef;
+    color: red;
+    font-weight: bold;
+    font-family: 'Quicksand', sans-serif;
+    letter-spacing: 1px;
+}
+
+.switch-tabs-container .tab-btn:active {
+    box-shadow: inset 7px 7px 16px #dacfcf,
+        inset -7px -7px 16px #faefef;
+}
+
+.switch-tabs-container .tab-btn:last-child {
+    border-right: 3px solid red;
+}
+
+.container .loading-container {
+    height: 100vh;
+    display: flex;
     justify-content: center;
     align-items: center;
 }
