@@ -27,6 +27,7 @@ function App() {
   const seriesURL = `http://gateway.marvel.com/v1/public/series?ts=${TIMESTAMP}&apikey=${PUBLIC_KEY}&hash=${HASH}&offset=${seriesOffset}`;
   
   const onClickCharactersTab = () => {
+    if(showCharacters)return;
     setIsLoading(true);
     setShowCharacters(true);
     setCurrentOffset(offset);
@@ -35,6 +36,7 @@ function App() {
   }
 
   const onClickComicsTab = () => {
+    if(showComics) return;
     setIsLoading(true);
     setCurrentOffset(comicsOffset);
     setShowCharacters(false);
@@ -43,6 +45,7 @@ function App() {
   }
 
   const onClickSeriesTab = () => {
+    if(showSeries) return;
     setIsLoading(true);
     setShowCharacters(false);
     setCurrentOffset(seriesOffset);
@@ -103,7 +106,6 @@ function App() {
     fetchData();
   },[showCharacters, showComics, showSeries, charactersURL, comicsURL, seriesURL, currentOffset, setCurrentOffset]);
 
-  console.log("content rendered");
   return (
     <div className="container">
         <div className="marvel-logo">
@@ -121,9 +123,9 @@ function App() {
           }
         </div>
         <div className="switch-tabs-container">
-          <button className="tab-btn" onClick={onClickCharactersTab}>Characters</button>
-          <button className="tab-btn" onClick={onClickComicsTab}>Comics</button>
-          <button className="tab-btn" onClick={onClickSeriesTab}>Series</button>
+          <label className="blue"><input onChange={onClickCharactersTab} type="radio" name="toggle"></input><span>Characters</span></label>
+          <label className="green"><input onChange={onClickComicsTab} type="radio" name="toggle"></input><span>Comics</span></label>
+          <label className="yellow"><input onChange={onClickSeriesTab} type="radio" name="toggle"></input><span>Series</span></label>
         </div>
         {
           isLoading ? 

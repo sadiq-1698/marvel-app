@@ -79,9 +79,8 @@ button.next {
     display: flex;
 }
 
-.switch-tabs-container .tab-btn {
+.switch-tabs-container label {
     flex: 1;
-    padding: 0.5rem;
     background-color: #eadfdf;
     border-left: 3px solid red;
     border-right: none;
@@ -98,12 +97,24 @@ button.next {
     letter-spacing: 1px;
 }
 
-.switch-tabs-container .tab-btn:active {
+.switch-tabs-container label span {
+    padding : 0.5rem 0;
+    text-align:center;
+    font-size: auto;
+    display:block;
+}
+
+.switch-tabs-container label input {
+    position:absolute;
+    top:-20px;
+}
+
+.switch-tabs-container input:checked + span {
     box-shadow: inset 7px 7px 16px #dacfcf,
         inset -7px -7px 16px #faefef;
 }
 
-.switch-tabs-container .tab-btn:last-child {
+.switch-tabs-container label:last-child {
     border-right: 3px solid red;
 }
 
