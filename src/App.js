@@ -1,7 +1,8 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import './App.css';
 import Character from './components/Card/Character';
 import axios from 'axios';
+import Tabs from './components/Tabs/Tabs';
 
 function App() {
 
@@ -9,138 +10,117 @@ function App() {
   const TIMESTAMP = "1600783133";
   const HASH = "f720aa3e246474b3e4eb05230211aa60";
 
-  const[offset, setOffset] = useState(0);
-  const[comicsOffset, setComicsOffset] = useState(0);
-  const[seriesOffset, setSeriesOffset] = useState(0);
-  const[currentOffset, setCurrentOffset] = useState(0);
-
+  const [offset, setOffset] = useState(0);
+  const [comicsOffset, setComicsOffset] = useState(0);
+  const [seriesOffset, setSeriesOffset] = useState(0);
+  const [currentOffset, setCurrentOffset] = useState(0);
+  const [checkedTab, setCheckedTab] = useState('characters');
+  const [darkTheme, setDarkTheme] = useState(false);
   const[isLoading, setIsLoading] = useState(true);
-
-  const[showCharacters, setShowCharacters] = useState(true);
-  const[showComics, setShowComics] = useState(false);
-  const[showSeries, setShowSeries] = useState(false);
+  const ref = useRef();
 
   const[data, setData] = useState([]);
-
-  const charactersURL = `http://gateway.marvel.com/v1/public/characters?ts=${TIMESTAMP}&apikey=${PUBLIC_KEY}&hash=${HASH}&offset=${offset}`;
-  const comicsURL = `http://gateway.marvel.com/v1/public/comics?ts=${TIMESTAMP}&apikey=${PUBLIC_KEY}&hash=${HASH}&offset=${comicsOffset}`;
-  const seriesURL = `http://gateway.marvel.com/v1/public/series?ts=${TIMESTAMP}&apikey=${PUBLIC_KEY}&hash=${HASH}&offset=${seriesOffset}`;
   
-  const onClickCharactersTab = () => {
-    if(showCharacters)return;
-    setIsLoading(true);
-    setShowCharacters(true);
-    setCurrentOffset(offset);
-    setShowComics(false);
-    setShowSeries(false);
-  }
+  const constructUrl = (type) => `http://gateway.marvel.com/v1/public/${type}?ts=${TIMESTAMP}&apikey=${PUBLIC_KEY}&hash=${HASH}&offset=${currentOffset}`;
+  const URL = constructUrl(checkedTab);
 
-  const onClickComicsTab = () => {
-    if(showComics) return;
-    setIsLoading(true);
-    setCurrentOffset(comicsOffset);
-    setShowCharacters(false);
-    setShowComics(true);
-    setShowSeries(false);    
-  }
+  const isCurrentTab = (tabName) => tabName === checkedTab;
 
-  const onClickSeriesTab = () => {
-    if(showSeries) return;
-    setIsLoading(true);
-    setShowCharacters(false);
-    setCurrentOffset(seriesOffset);
-    setShowComics(false);
-    setShowSeries(true);  
-  }
-
-  const onClickPrev = () => {
-    if(showCharacters){
-      if(offset > 0){
-        setOffset(offset - 20);
-      }
-      setCurrentOffset(offset);
-    }else if(showComics){
-      if(comicsOffset > 0){
-        setComicsOffset(comicsOffset - 20);
-      }
-      setCurrentOffset(comicsOffset);
-    }else if(showSeries){
-      if(seriesOffset > 0){
-        setSeriesOffset(seriesOffset - 20);
-      }
-      setCurrentOffset(seriesOffset);
+  const handlePageChange = (isNext = true) => {
+    const pageOffset = isNext ? 20 : -20;
+    let offsetFunc;
+    let currentTabOffset;
+    switch(checkedTab) {
+      case 'characters':
+        offsetFunc = setOffset;
+        currentTabOffset = offset;
+        break;
+      case 'comics':
+        offsetFunc = setComicsOffset;
+        currentTabOffset = comicsOffset;
+        break;
+      case 'series':
+        offsetFunc = setSeriesOffset;
+        currentTabOffset = seriesOffset;
+        break;
+      default:
+        return;
     }
+    const tempOffset = currentTabOffset + pageOffset;
+    offsetFunc(tempOffset);
+    setIsLoading(true);
+    setCurrentOffset(tempOffset);
   }
-
-  const onClickNext = () => {
-    setCurrentOffset(currentOffset);
-    if(showCharacters){
-      setOffset(offset + 20);
-      setCurrentOffset(offset);
-    }else if(showComics){
-      setComicsOffset(comicsOffset + 20);
-      setCurrentOffset(comicsOffset);
-    }else if(showSeries){
-      setSeriesOffset(seriesOffset + 20);
-      setCurrentOffset(seriesOffset);
-    }  
-  }
-
+  
   useEffect(() => {
     setCurrentOffset(currentOffset);
-    let URL = "";
     const fetchData = async () => {
-      if(showCharacters === true){
-        URL = charactersURL;
-      }else if(showComics === true){
-        URL = comicsURL;
-      }else if(showSeries === true){
-        URL = seriesURL;
-      }
       const response = await axios(URL);
       if(response){
+        ref.current.scrollTop = 0;
         setData(response.data.data.results);
         setIsLoading(false);
       }
     };
     fetchData();
-  },[showCharacters, showComics, showSeries, charactersURL, comicsURL, seriesURL, currentOffset, setCurrentOffset]);
+  },[URL, checkedTab, currentOffset, setCurrentOffset]);
+  
+  const handleTabClick = (tabName, currentTabOffset) => {
+    if(isCurrentTab(tabName))return;
+    setIsLoading(true);
+    setCurrentOffset(currentTabOffset);
+  }
+
+  const handleTabChange = (tabName, currentTabOffset) => {
+    setCheckedTab(tabName);
+    handleTabClick(tabName, currentTabOffset);
+  }
 
   return (
-    <div className="container">
+    <div className={`container ${darkTheme ? 'dark-theme': ''}`}>
         <div className="marvel-logo">
-            <img src={process.env.PUBLIC_URL + '/marvel-logo.png'} alt="marvel-logo" width="150px" height="75px"/>       
+            <img src={process.env.PUBLIC_URL + '/marvel-logo.png'} alt="marvel-logo" width="150px" height="75px"/>
+            <div className="theme-toggle">
+              <label class="switch"> 
+                <input type="checkbox" checked={darkTheme} onChange={() => setDarkTheme(!darkTheme)}></input>
+                <span class="slider round"></span>
+              </label>
+            </div>
         </div>
-        <div className="tab-container"> 
-          {
-            currentOffset <= 0 ?
-            <button className="inactive" disabled >Prev</button>:
-            <button className="prev" onClick={onClickPrev}> Prev</button> 
-          }
-          {  currentOffset >= 1490 ? 
-            <button className="inactive" disabled>Next{currentOffset}</button> :
-            <button className="next" onClick={onClickNext}>Next</button>
-          }
+        <div className="main-content">
+          <div className="tab-container">
+            <button
+              className={`${currentOffset <= 0 ? 'inactive' : 'prev'}`}
+              disabled={currentOffset <= 0}
+              onClick={() => handlePageChange(false)}
+            >
+              Prev
+            </button>
+            <button
+              className={`${currentOffset >= 1490 ? 'inactive': 'next'}`}
+              disabled={currentOffset >= 1490}
+              onClick={() => handlePageChange()}
+            >
+              Next
+            </button>
+          </div>
+          <Tabs checkedTab={checkedTab} handleTabChange={handleTabChange} offset={offset} comicsOffset={comicsOffset} seriesOffset={seriesOffset} />
+            <div className="grid-wrapper" ref={ref}>
+              { 
+                isLoading ? 
+                <div className="loading-container">
+                  <img src={process.env.PUBLIC_URL + '/spinner2.gif'} alt="spinner" width="80px" height="80px"/>       
+                </div> :
+                <div className="grid-container">
+                  { 
+                    data.map((res, key) => (
+                      <Character key={key}  {...res}/>
+                    ))
+                  }      
+                </div> 
+              }
+            </div>
         </div>
-        <div className="switch-tabs-container">
-          <label className="blue"><input onChange={onClickCharactersTab} type="radio" name="toggle"></input><span>Characters</span></label>
-          <label className="green"><input onChange={onClickComicsTab} type="radio" name="toggle"></input><span>Comics</span></label>
-          <label className="yellow"><input onChange={onClickSeriesTab} type="radio" name="toggle"></input><span>Series</span></label>
-        </div>
-        {
-          isLoading ? 
-          <div className="loading-container">
-            <h1>Loading...</h1>
-          </div> : 
-          <div className="grid-container">
-            { 
-              data.map((res, key) => (
-                <Character key={key}  {...res}/>
-              ))
-            }      
-          </div> 
-        }
-
     </div>
   );
 }

@@ -1,17 +1,28 @@
 @import url('https://fonts.googleapis.com/css?family=Quicksand&display=swap');
 
+:root {
+    --light-theme: #eadfdf;
+    --light-theme-shadow: 7px 7px 16px #dacfcf, -7px -7px 16px #faefef;
+    --light-theme-shadow-inset: inset 7px 7px 16px #dacfcf, inset -7px -7px 16px #faefef;
+    --dark-theme: #454547;
+    --dark-theme-shadow: 5px 5px 21px #3b3b3d, -5px -5px 21px #4f4f51;
+    --dark-theme-shadow-inset: inset 21px 21px 42px #3b3b3d, inset -21px -21px 42px #4f4f51;
+}
+
 * {
     padding: 0;
     margin: 0;
 }
 
+html,
+body,
+#root {
+    height: 100%;
+}
+
 body {
-    width: 1280px;
-    height : 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #eadfdf;
+    width: 100%;
+    height: 100%;
     margin: 0 auto;
     font-family: 'Quicksand', sans-serif;
     letter-spacing: 1px;
@@ -22,17 +33,79 @@ body {
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background: #eadfdf;
-    box-shadow: 7px 7px 16px #dacfcf,
-        -7px -7px 16px #faefef;
+    background: var(--light-theme);
 }
 
-.marvel-logo {
+.container.dark-theme {
+    background: var(--dark-theme);
+}
+
+.container .marvel-logo {
     display: flex;
     align-items: center;
+    justify-content: center;
     margin: 1rem 0;
+    position: relative;
+}
+
+.container .marvel-logo .theme-toggle {
+    position: absolute;
+    right: 25px;
+}
+
+.container .marvel-logo .theme-toggle .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.container .marvel-logo .theme-toggle .slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.container .marvel-logo .theme-toggle input:checked+.slider {
+    background-color: #2196F3;
+}
+
+.container .marvel-logo .theme-toggle input:focus+.slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+.container .marvel-logo .theme-toggle input:checked+.slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+.container .marvel-logo .theme-toggle .slider.round {
+    border-radius: 34px;
+}
+
+.container .marvel-logo .theme-toggle .slider.round:before {
+    border-radius: 50%;
+}
+
+.main-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: calc(100% - 75px);
+    overflow: auto;
 }
 
 .tab-container {
@@ -48,26 +121,39 @@ body {
     margin-right: 0.6rem;
     cursor: pointer;
     border-radius: 10px;
-    background: #eadfdf;
+    background: var(--light-theme);
     color: red;
     letter-spacing: 1px;
     font-weight: bold;
-    box-shadow: 7px 7px 16px #dacfcf,
-        -7px -7px 16px #faefef;
-        font-family: 'Quicksand', sans-serif;
+    box-shadow: var(--light-theme-shadow);
+    font-family: 'Quicksand', sans-serif;
+}
+
+.dark-theme .tab-container button {
+    background: var(--dark-theme);
+    box-shadow: var(--dark-theme-shadow);
 }
 
 button:active {
-    box-shadow: inset 7px 7px 16px #dacfcf,
-        inset -7px -7px 16px #faefef;
+    box-shadow: var(--light-theme-shadow-inset);
+}
+
+.dark-theme button:active {
+    box-shadow: var(--dark-theme-shadow-inset);
 }
 
 button.inactive {
     color: grey;
     cursor: not-allowed;
-    background-color: lightgray;
-    box-shadow: inset 7px 7px 16px #dacfcf,
-        inset -7px -7px 16px #faefef;
+    background-color: #eadfdf;
+    box-shadow: var(--light-theme-shadow-inset);
+}
+
+.dark-theme button.inactive {
+    color: grey;
+    cursor: not-allowed;
+    background-color: var(--dark-theme);
+    box-shadow: var(--dark-theme-shadow-inset);
 }
 
 button.next {
@@ -81,7 +167,7 @@ button.next {
 
 .switch-tabs-container label {
     flex: 1;
-    background-color: #eadfdf;
+    background-color: var(--light-theme);
     border-left: 3px solid red;
     border-right: none;
     border-top: none;
@@ -89,29 +175,38 @@ button.next {
     outline: none;
     border-radius: 2px;
     cursor: pointer;
-    box-shadow: 7px 7px 16px #dacfcf,
-        -7px -7px 16px #faefef;
+    box-shadow: var(--light-theme-shadow);
     color: red;
     font-weight: bold;
     font-family: 'Quicksand', sans-serif;
     letter-spacing: 1px;
 }
 
+.dark-theme .switch-tabs-container label {
+    background-color: var(--dark-theme);
+    box-shadow: var(--dark-theme-shadow);
+}
+
 .switch-tabs-container label span {
-    padding : 0.5rem 0;
-    text-align:center;
+    padding: 0.5rem 0;
+    text-align: center;
     font-size: auto;
-    display:block;
+    display: block;
 }
 
 .switch-tabs-container label input {
-    position:absolute;
-    top:-20px;
+    position: absolute;
+    top: -20px;
 }
 
-.switch-tabs-container input:checked + span {
-    box-shadow: inset 7px 7px 16px #dacfcf,
-        inset -7px -7px 16px #faefef;
+.switch-tabs-container input:checked+span {
+    color: black;
+    box-shadow: var(--light-theme-shadow-inset);
+}
+
+.dark-theme .switch-tabs-container input:checked+span {
+    color: white;
+    box-shadow: var(--dark-theme-shadow-inset);
 }
 
 .switch-tabs-container label:last-child {
@@ -119,16 +214,66 @@ button.next {
 }
 
 .container .loading-container {
-    height: 100vh;
+    margin-top: 175px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
+.container .grid-wrapper {
+    width: 100%;
+    height: calc(100% - 88px);
+    overflow: auto;
+}
+
 .container .grid-container {
-    max-width: 100%;
+    max-width: 593px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     column-gap: 1rem;
     align-items: center;
+    margin: 0 auto;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+
+@media screen and (max-width: 600px) {
+    .container .grid-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .container .switch-tabs-container {
+        width: 400px;
+        display: flex;
+    }
+}
+
+@media screen and (max-width: 410px) {
+    .container .grid-container {
+        grid-template-columns: 1fr;
+    }
+
+    .container .switch-tabs-container {
+        width: 300px;
+        display: flex;
+    }
+
+    .container .switch-tabs-container label span {
+        padding: 0.5rem 0;
+        text-align: center;
+        font-size: 14px;
+        display: block;
+    }
 }
