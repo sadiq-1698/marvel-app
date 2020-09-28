@@ -73,20 +73,37 @@
     font-size: 100%;
 }
 
-@media screen and (max-width: 410px) {
+
+@media screen and (max-width: 415px) {
     .flip-card {
-        width: 280px;
-        height: 335px;
+        width: 90%;
+        height: 275px;
     }
 
     .flip-card-front img {
-        width: 275px;
-        height: 330px;
+        width: calc(100% - 15px);
+        height: 270px;
     }
 
     .flip-card-back {
-        width: 275px;
-        height: 330px;
+        width: calc(100% - 15px);
+        height: 270px;
+    }
+}
+
+@media screen and (max-width: 390px) {
+    .flip-card {
+        width: 200px;
+        height: 255px;
     }
 
+    .flip-card-front img {
+        width: 185px;
+        height: 250px;
+    }
+
+    .flip-card-back {
+        width: 185px;
+        height: 250px;
+    }
 }

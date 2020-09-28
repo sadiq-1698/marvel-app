@@ -1,0 +1,11 @@
+.container .header-container .tab-container .switch-tabs-container{
+    display: flex;
+    flex-direction: column;
+    width : 100%;
+}
+
+.container .header-container .tab-container .switch-tabs-container .blue{
+    padding : 10px;
+    flex : 1;
+    color : red;
+}
