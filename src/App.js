@@ -21,7 +21,7 @@ function App() {
 
   const ref = useRef();
   
-  const constructUrl = (type) => `http://gateway.marvel.com/v1/public/${type}?ts=${TIMESTAMP}&apikey=${PUBLIC_KEY}&hash=${HASH}&offset=${currentOffset}`;
+  const constructUrl = (type) => `https://gateway.marvel.com/v1/public/${type}?ts=${TIMESTAMP}&apikey=${PUBLIC_KEY}&hash=${HASH}&offset=${currentOffset}`;
   const URL = constructUrl(checkedTab);
 
   const isCurrentTab = (tabName) => tabName === checkedTab;
