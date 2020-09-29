@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react';
 import './App.css';
-import Character from './components/Card/Character';
+import Card from './components/Card/Card';
 import axios from 'axios';
 import Tabs from './components/Tabs/Tabs';
 
@@ -85,12 +85,6 @@ function App() {
               <div className="theme-toggle"><input type="checkbox" id="switch"
                 className="checkbox" checked={darkTheme} onChange={() => setDarkTheme(!darkTheme)}/> 
                 <label htmlFor="switch" className="toggle"> </label> </div>
-              {/* <div className="theme-toggle">
-                <label className="switch"> 
-                  <input type="checkbox" checked={darkTheme} onChange={() => setDarkTheme(!darkTheme)}></input>
-                  <span className="slider round"></span>
-                </label>
-              </div> */}
           </div>
           <div className="button-container">
               <button
@@ -119,7 +113,7 @@ function App() {
               <div className="grid-container">
                 { 
                   data.map((res, key) => (
-                    <Character key={key}  {...res}/>
+                    <Card key={key}  {...res}/>
                   ))
                 }      
               </div> 

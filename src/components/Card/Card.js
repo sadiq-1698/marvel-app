@@ -1,7 +1,7 @@
 import React from 'react';
 import './styles.css';
 
-const Character = (data) => {
+const Card = (data) => {
 
     const imageURL = data.thumbnail.path + '/portrait_uncanny.jpg';
 
@@ -33,4 +33,4 @@ const Character = (data) => {
     }
 }
 
-export default  Character;
+export default  Card;

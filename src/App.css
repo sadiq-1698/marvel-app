@@ -59,6 +59,7 @@
     z-index: 5;
     top: 0;
     box-shadow: var(--light-theme-shadow);
+    background-color: var(--light-theme);
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
     clear: both;
